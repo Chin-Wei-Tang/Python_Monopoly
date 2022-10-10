@@ -2,12 +2,15 @@
 """
 Created on Sun Jan 17 22:24:16 2021
 
-@author: T3 & Leo
+@author: Chin Wei Tang
 """
+#%%
+
 
 import time, random, string
 
 
+# variables
 tot_houses = 32
 tot_hotels = 12
 freePMon = 0
@@ -19,8 +22,8 @@ choice = []
 houses = {}
 
 
-'''
 # database is a dictionary which stores the position, money, property & houses, streets, jail info (number if turns in jail), jail card of player
+''''''
 database = {1: [0, 1500, {}, [], 0, 0],
             2: [0, 1500, {}, [], 0, 0],
             3: [0, 1500, {}, [], 0, 0],
@@ -29,11 +32,20 @@ database = {1: [0, 1500, {}, [], 0, 0],
             6: [0, 1500, {}, [], 0, 0],
             7: [0, 1500, {}, [], 0, 0],
             8: [0, 1500, {}, [], 0, 0]}
-'''
-#database = {'POOJAK': [7, 1500, {}, [], 0, 1], 'LEO': [5, 1300, {5: 0}, [], 0, 0], 'CHIN WEI': [3, 1440, {3: 0}, [], 0, 0], 'GIAN': [6, 1400, {6: 0}, [], 0, 0]}
+            
 
-database = {'CHIN': [16, 556, {11: 4, 13: 4, 14: 4, 21: 0.0, 25: 1, 35: 1}, ['Pink'], 0, 0], 'KALE': [11, 14, {6: 3, 8: 3, 9: 3, 26: 0, 27: 0, 29: 0}, ['Light Blue', 'Yellow'], 0, 0], 'BAGGY': [32, 704, {23: 0.0, 24: 0.0, 31: 1, 32: 1, 34: 1}, ['Green'], 0, 0], 'ROARLIKELEO': [13, 117, {15: 0.0, 16: 3, 18: 3, 19: 3}, ['Orange'], 0, 0], 'GIAN': [12, 314, {1: 5, 3: 5, 5: 0, 12: 1, 28: 1, 37: 0, 39: 0}, ['Brown', 'Dark Blue'], 0, 0]}
 
+# example of a real database from a past game
+''' 
+database = {'CHIN': [16, 556, {11: 4, 13: 4, 14: 4, 21: 0.0, 25: 1, 35: 1}, ['Pink'], 0, 0],
+        'KALE': [11, 14, {6: 3, 8: 3, 9: 3, 26: 0, 27: 0, 29: 0}, ['Light Blue', 'Yellow'], 0, 0], 
+        'BAGGY': [32, 704, {23: 0.0, 24: 0.0, 31: 1, 32: 1, 34: 1}, ['Green'], 0, 0], 
+        'ROARLIKELEO': [13, 117, {15: 0.0, 16: 3, 18: 3, 19: 3}, ['Orange'], 0, 0], 
+        'GIAN': [12, 314, {1: 5, 3: 5, 5: 0, 12: 1, 28: 1, 37: 0, 39: 0}, ['Brown', 'Dark Blue'], 0, 0]}
+        '''
+
+
+# dictionary that ties the associated properties with their street
 streets = {'Brown':       [1, 3],
            'Light Blue':  [6, 8 , 9],
            'Pink':        [11, 13, 14],
@@ -43,12 +55,10 @@ streets = {'Brown':       [1, 3],
            'Green':       [31, 32, 34],
            'Dark Blue':   [37, 39]}
 
-
-
+# list that keeps track of which properties are owned
 owned_property = []
 
-
-
+# sequential list of all the positions on the board
 locations = ['Go', 'Old Kent Road (B)', 'Community chest', 'Whitechapel Road (B)', 'Income Tax',
           'Kings Cross Station', 'The Angel, Islington (LB)', 'Chance', 'Euston Road (LB)', 'Pentonville Road (LB)',
           'Jail', 'Pall Mall (P)', 'Electric Company', 'Whitehall (P)', 'Northumbland Avenue (P)',
@@ -98,13 +108,6 @@ chance_deck = ['go', 'jail', 'pall_mall', 'trafalgar', 'street_repairs', 'statio
 
 community_chest_deck = ['bank_error', 'doctor', 'stock', 'old_kent', 'annuity', 'income', 'birthday', 'fine', 'hospital',
                         'interest', 'insurance', 'beauty', 'inherit']
-
-
-
-def achievement():
-    '''
-    Achievements e.g first blood    
-    '''
 
 
 
@@ -212,10 +215,10 @@ def bankruptcy(x, p, a, r):
                 elif ans == 'Y':
                     price = 0
                     owned_prop = database[p][2].copy()
-                    print("\nSelling all houses", end = "")
+                    print("\nSelling all houses", end = "", flush=True)
                     for i in range(3):
                         time.sleep(0.5)
-                        print('.', end = '')
+                        print('.', end = '', flush=True)
                     time.sleep(0.5)
                     print("\n")
                     
@@ -231,27 +234,27 @@ def bankruptcy(x, p, a, r):
                     else:
                         print("\n")
                         pay(database[p][1], p, a)
-                        print("\nTransferring properties", end = "")
+                        print("\nTransferring properties", end = "", flush=True)
                         for i in range(3):
                             time.sleep(0.5)
                             if i == 2:
                                 print('.')
                             else:
-                                print('.', end = '')
+                                print('.', end = '', flush=True)
                         time.sleep(0.5)
                         for i in owned_prop:
                             if isinstance(database[p][2][i], float) == True:
                                 database[a][2][i] = 0.0
                                 if i == list(database[p][2])[-1]:
-                                    print(locations[i] + " (mortgaged)", end = " ")
+                                    print(locations[i] + " (mortgaged)", end = " ", flush=True)
                                 else:
-                                    print(locations[i] + " (mortgaged)", end = ", ")
+                                    print(locations[i] + " (mortgaged)", end = ", ", flush=True)
                             else:
                                 database[a][2][i] = 0
                                 if i == list(database[p][2])[-1]:
-                                    print(locations[i], end = " ")
+                                    print(locations[i], end = " ", flush=True)
                                 else:
-                                    print(locations[i], end = ", ")
+                                    print(locations[i], end = ", ", flush=True)
                             database[p][2].pop(i)
                             
                         print("has/ have been transferred from " + p + " to " + a) 
@@ -262,7 +265,7 @@ def bankruptcy(x, p, a, r):
                     time.sleep(1)
                     print("\n\n\nAight " + p + "...")
                     time.sleep(1)
-                    print("\nSry to break it to u but ur kinda dog at this game.", end = " ")
+                    print("\nSry to break it to u but ur kinda dog at this game.", end = " ", flush=True)
                     time.sleep(1)
                     print("Better luck next time!")
                     time.sleep(1.5)
@@ -387,13 +390,13 @@ def buy_houses():
                                             print("You cannot get more than 1 hotel per property! Don't be greedy! xd")
                                             time.sleep(delay)
                                         elif max(houses_list.values()) - min(houses_list.values()) > 1:
-                                            print("You cannot buy a house on this property now-", end = "")
+                                            print("You cannot buy a house on this property now-", end = "", flush=True)
                                             time.sleep(delay)
                                             print(" you must have " + str(min(houses_list.values()) + 1) + " houses on each property on this street before you can get a " + str(max(houses_list.values())) + "th house on ")
                                             time.sleep(delay)
-                                            print("Currently, you own ", end = "")
+                                            print("Currently, you own ", end = "", flush=True)
                                             for i in st_prop:
-                                                print(str(database[name][2][i]) + " house(s) on " + locations[i] , end = "  ")
+                                                print(str(database[name][2][i]) + " house(s) on " + locations[i] , end = "  ", flush=True)
                                             print("\n")
                                             time.sleep(delay*3)
                                         else:
@@ -545,10 +548,10 @@ def chance(p, a):
     global chance_com_reroll, freePMon, delay
     
     if a == '':
-        print("Drawing chance card", end = "")
+        print("Drawing chance card", end = "", flush=True)
         for i in range(3):
             time.sleep(delay*2)
-            print('.', end = '')
+            print('.', end = '', flush=True)
         print("\n\n")
         time.sleep(delay*2)
         chance_deck.append(chance_deck[0])
@@ -574,12 +577,12 @@ def chance(p, a):
         chance_com_reroll = 1
         if database[p][0] <= 11:
             database[p][0] = 11
-            print("You landed on... ", end = "")
+            print("You landed on... ", end = "", flush=True)
             time.sleep(delay*2)
             print(locations[database[p][0]], "!")
         elif database[p][0] > 11:
             database[p][0] = 11
-            print("You land on... ", end = "")
+            print("You land on... ", end = "", flush=True)
             time.sleep(delay*2)
             print(locations[database[p][0]], "!")
             time.sleep(delay*2)
@@ -594,12 +597,12 @@ def chance(p, a):
         #database[p][6] = 1
         if database[p][0] <= 24:
             database[p][0] = 24
-            print("You land on... ", end = "")
+            print("You land on... ", end = "", flush=True)
             time.sleep(delay*2)
             print(locations[database[p][0]], "!")
         elif database[p][0] > 24:
             database[p][0] = 24
-            print("You land on... ", end = "")
+            print("You land on... ", end = "", flush=True)
             time.sleep(delay*2)
             print(locations[database[p][0]], "!")
             time.sleep(delay*2)
@@ -621,7 +624,7 @@ def chance(p, a):
         if num_houses + num_hotels == 0:
             print("Luckily you own 0 houses & hotels so don't have to pay anything")
         else:
-            print("You own " + str(num_houses) + " houses and " + str(num_hotels) + " hotels so that's- " , end = "")
+            print("You own " + str(num_houses) + " houses and " + str(num_hotels) + " hotels so that's- " , end = "", flush=True)
             time.sleep(delay*2)
             print(str(num_houses) + " x £40 = £" + str(num_houses * 40) + " and " + str(num_hotels) + " x £115 = £" + str(num_hotels * 115))
             if delay == 0 and ((num_houses * 40) + (num_hotels * 115)) > 150:
@@ -638,12 +641,12 @@ def chance(p, a):
         chance_com_reroll = 1
         if database[p][0] <= 15:
             database[p][0] = 15
-            print("You land on... ", end = "")
+            print("You land on... ", end = "", flush=True)
             time.sleep(delay*2)
             print(locations[database[p][0]], "!")
         elif database[p][0] > 15:
             database[p][0] = 15
-            print("You land on... ", end = "")
+            print("You land on... ", end = "", flush=True)
             time.sleep(delay*2)
             print(locations[database[p][0]], "!")
             time.sleep(delay*2)
@@ -682,7 +685,7 @@ def chance(p, a):
         if num_houses + num_hotels == 0:
             print("Luckily you own 0 houses & hotels so don't have to pay anything")
         else:
-            print("You own " + str(num_houses) + " houses and " + str(num_hotels) + " hotels so that's- " , end = "")
+            print("You own " + str(num_houses) + " houses and " + str(num_hotels) + " hotels so that's- " , end = "", flush=True)
             time.sleep(delay*2)
             print(str(num_houses) + " x £25 = £" + str(num_houses * 25) + " and " + str(num_hotels) + " x £100 = £" + str(num_hotels * 100))
             if delay == 0 and ((num_houses * 25) + (num_hotels * 100)) > 150:
@@ -721,7 +724,7 @@ def chance(p, a):
         time.sleep(delay*2)
         database[p][0] = 39
         chance_com_reroll = 1
-        print("You have landed on... ", end = " ")
+        print("You have landed on... ", end = " ", flush=True)
         print(locations[database[p][0]], "!")
         roll(p)
         
@@ -738,10 +741,10 @@ def community_chest(p, a):
     global chance_com_reroll, freePMon, delay
     
     if a == '':
-        print("Drawing community chest card", end = "")
+        print("Drawing community chest card", end = "", flush=True)
         for i in range(3):
             time.sleep(delay*2)
-            print('.', end = '')
+            print('.', end = '', flush=True)
         print("\n\n")
         time.sleep(delay*2)
         community_chest_deck.append(community_chest_deck[0])
@@ -766,7 +769,7 @@ def community_chest(p, a):
         database[p][0] = 1
         chance_com_reroll = 1
         #database[p][6] = 1
-        print("You land on... ", end = "")
+        print("You land on... ", end = "", flush=True)
         time.sleep(delay*2)
         print(locations[database[p][0]], "!")
         roll(p)
@@ -873,15 +876,15 @@ def info(a):
                 else:
                     for i in database[player][2]:
                         if database[player][2][i] == 5:
-                            print(locations[i] + " - 1 hotel  ,  ", end = "")
+                            print(locations[i] + " - 1 hotel  ,  ", end = "", flush=True)
                         else:
-                            print(locations[i] + " - " + str(database[player][2][i]) + " house(s),  ", end = "")
+                            print(locations[i] + " - " + str(database[player][2][i]) + " house(s),  ", end = "", flush=True)
                     if database[player][3] == []:
                         print("and no streets.")
                     else:
-                        print("and the ", end = "")
+                        print("and the ", end = "", flush=True)
                         for i in database[player][3]:
-                            print(i, end = "")
+                            print(i, end = "", flush=True)
                         print(" street(s).")
             time.sleep(delay*3)
             
@@ -908,7 +911,7 @@ def intro():
     print("\n\n\n")
     intro = "WELCOME TO MONOPOLY!"
     for i in intro:
-        print(i, end ="")
+        print(i, end ="", flush=True)
         time.sleep(0.2)
         
     print("\n\nThis game has a maximum of 8 players.")
@@ -1021,9 +1024,9 @@ def mortgage(p):
                                         for i in choice:
                                             database[p][2][i] = 0.0
                                             if i == choice[-1]:
-                                                print(locations[i], end = "")
+                                                print(locations[i], end = "", flush=True)
                                             else:
-                                                print(locations[i] + ", ", end = "")
+                                                print(locations[i] + ", ", end = "", flush=True)
                                         print(" has/ have been mortgaged.")
                                         break
                                                                   
@@ -1089,9 +1092,9 @@ def mortgage(p):
                                     for i in choice:
                                         database[p][2][i] = 0
                                         if i == choice[-1]:
-                                            print(locations[i], end = "")
+                                            print(locations[i], end = "", flush=True)
                                         else:
-                                            print(locations[i] + ", ", end = "")
+                                            print(locations[i] + ", ", end = "", flush=True)
                                     print(" has/ have been unmortgaged.")
                                     break
                                     
@@ -1146,16 +1149,16 @@ def jail(a):
         else:
             jail_choice = input(turn + " turn in jail - roll double (A) or pay £50 (B)?   ")
         if jail_choice == "A":
-            print("You roll", end = '')
+            print("You roll", end = '', flush=True)
             for i in range(3):
                 time.sleep(delay*2)
-                print('.', end = '')
+                print('.', end = '', flush=True)
             time.sleep(delay*2)
             roll_1 = random.randint(1, 6)
             roll_2 = random.randint(1, 6)
-            print(" ", roll_1, end = "")
+            print(" ", roll_1, end = "", flush=True)
             time.sleep(delay*2)
-            print(" and ", end = "")
+            print(" and ", end = "", flush=True)
             time.sleep(delay*2)
             print(roll_2)
             time.sleep(delay*3)
@@ -1195,9 +1198,9 @@ def jail(a):
         
         
     if database[a][4] == 0:
-        print("\nWe hope you enjoyed your stay. ", end = "")
+        print("\nWe hope you enjoyed your stay. ", end = "", flush=True)
         time.sleep(delay*2)
-        print("pls consider leaving a 5 star review on Trip Advisor ", end = "")
+        print("pls consider leaving a 5 star review on Trip Advisor ", end = "", flush=True)
         time.sleep(delay*3)
         print(":)\n\n")
         time.sleep(delay*2)
@@ -1227,22 +1230,22 @@ def pay(x, a, b):
     if x == 0 or a not in database:
         return
     
-    print('Monies transferring  ', end = '')
+    print('Monies transferring  ', end = '', flush=True)
     for i in range(3):
         time.sleep(delay*2)
-        print('$  ', end = '')
+        print('$  ', end = '', flush=True)
     time.sleep(delay*2)
     
     if b == '':
         database[a][1] += x
         if x> 0:
-            print("\n£" + str(x) + " has been transferred to your account. ", end = "" )
+            print("\n£" + str(x) + " has been transferred to your account. ", end = "", flush=True )
             time.sleep(delay*2)
             print("You've now got £" + str(database[a][1]) + " in your account now.")
             time.sleep(delay*2)
             print('Pogggg')
         elif x< 0:
-            print("\n-£" + str(-x) + " has been transferred from your account. ", end = "")
+            print("\n-£" + str(-x) + " has been transferred from your account. ", end = "", flush=True)
             time.sleep(delay*2)
             print("You've now got £" + str(database[a][1]) + " in your account now.")
             time.sleep(delay*2)
@@ -1271,10 +1274,10 @@ def pay(x, a, b):
                 break
             elif ans == "X":
                 delay = 0.3
-                print('Turning off TURBO', end = '')
+                print('Turning off TURBO', end = '', flush=True)
                 for i in range(3):
                     time.sleep(0.5)
-                    print('.', end = '')
+                    print('.', end = '', flush=True)
                 time.sleep(0.5)
                 print("\n\n\n\n")
                 break
@@ -1292,7 +1295,7 @@ def rent(x, a):
     for player in database:
         if x in database[player][2]:
             number_houses = database[player][2][x]
-            print ("You landed on " + player + "'s property- ", end = "")
+            print ("You landed on " + player + "'s property- ", end = "", flush=True)
             time.sleep(delay*2)
             if isinstance(number_houses, float) == True:
                 print("Noice. This property has been mortgaged so you don't have to pay rent.")
@@ -1300,21 +1303,21 @@ def rent(x, a):
             else:
                 if x in [12, 28]:
                     if number_houses == 0:
-                        print(player + " owns 1 utility ", end = "")
+                        print(player + " owns 1 utility ", end = "", flush=True)
                         print("and the rent costs £" + str(roll_num*4) + ".\n")
                         pay(roll_num*4, a, player)
                         return
                     elif number_houses == 1:
-                        print(player + " owns 2 utilities ", end = "")
+                        print(player + " owns 2 utilities ", end = "", flush=True)
                         print("and the rent costs £" + str(roll_num*10) + ".\n")
                         pay(roll_num*10, a, player)
                         return
                     time.sleep(delay*2)
                 elif x in [5, 15, 25, 35]:
-                    print(player + " owns " + str(database[player][2][x] + 1) + " station(s) ", end = "")
+                    print(player + " owns " + str(database[player][2][x] + 1) + " station(s) ", end = "", flush=True)
                     time.sleep(delay*2)
                 else:
-                    print("this property has " + str(number_houses) + " house(s) ", end = "")
+                    print("this property has " + str(number_houses) + " house(s) ", end = "", flush=True)
                     time.sleep(delay*2)
                     
                 if database[player][3] != []:
@@ -1364,17 +1367,17 @@ def roll(p):
                     pass
                 else:
                     print('You start on ' + locations[database[p][0]], end = ' ')
-                    print("and roll", end = '')
+                    print("and roll", end = '', flush=True)
                     for i in range(3):
                         time.sleep(delay*2)
-                        print('.', end = '')
+                        print('.', end = '', flush=True)
                     time.sleep(delay*2)
                     roll_1 = random.randint(1, 6)
                     roll_2 = random.randint(1, 6)
                     roll_num  = roll_1 + roll_2
-                    print(" ", roll_1, end = "")
+                    print(" ", roll_1, end = "", flush=True)
                     time.sleep(delay*2)
-                    print(" and ", end = "")
+                    print(" and ", end = "", flush=True)
                     time.sleep(delay*2)
                     print(roll_2)
                     time.sleep(delay*2)
@@ -1396,7 +1399,7 @@ def roll(p):
                         double =0
             
                     
-                print("You advance", roll_num, "spaces", end = '')
+                print("You advance", roll_num, "spaces", end = '', flush=True)
                 time.sleep(delay*2)
                 
                 
@@ -1406,7 +1409,7 @@ def roll(p):
                         print(' and land on ' + locations[database[p][0]] + '!')
                         time.sleep(delay*3)
                     else:
-                        print (", pass Go", end = "" )
+                        print (", pass Go", end = "", flush=True )
                         database[p][0] = (database[p][0] + roll_num) % 40
                         print(' and land on ' + locations[database[p][0]] + '!')
                         time.sleep(delay*2)
@@ -1499,10 +1502,10 @@ def roll(p):
                             break
                         elif ans == "X":
                             delay = 0.3
-                            print('Turning off TURBO', end = '')
+                            print('Turning off TURBO', end = '', flush=True)
                             for i in range(3):
                                 time.sleep(0.5)
-                                print('.', end = '')
+                                print('.', end = '', flush=True)
                             time.sleep(0.5)
                             print("\n\n\n\n")
                             break
@@ -1527,21 +1530,21 @@ def shuffle():
         decision = str(input("Would you like to shuffle the chance and community chest cards? (Y/N)   "))
         if  decision == "Y":
             time.sleep(0.5)
-            print("Shuffling", end = "")
+            print("Shuffling", end = "", flush=True)
             time.sleep(0.5)
             for i in range(3):
-                print(".", end = "")
+                print(".", end = "", flush=True)
                 time.sleep(0.5)
             random.shuffle(community_chest_deck)    
             random.shuffle(chance_deck)
-            print("\nYour cards have been shuffled... by Krammer.", end = "")
+            print("\nYour cards have been shuffled... by Krammer.", end = "", flush=True)
             time.sleep(0.5)
             print(" Don't be surprised if he wins.")
             return chance_deck, community_chest_deck
             #return community_chest_deck
         elif decision == "N":
             time.sleep(0.5)
-            print("Why u tryna cheat??? Sus. Fined £200 for cheating.", end ="")
+            print("Why u tryna cheat??? Sus. Fined £200 for cheating.", end ="", flush=True)
             time.sleep(1)
             print("jk ;)")
         else:
@@ -1568,25 +1571,25 @@ def street(a):
         
     if new_owned_streets != database[a][3]:
         if len(new_owned_streets) > len(database[a][3]):
-            print ("Congratulations " + a + "! You now have completed the ", end = "")
+            print ("Congratulations " + a + "! You now have completed the ", end = "", flush=True)
             for i in list(set(new_owned_streets) - set(database[a][3])):
                 if i == list(set(new_owned_streets) - set(database[a][3]))[-1]:
-                    print(i, end = "")
+                    print(i, end = "", flush=True)
                 else:
-                    print(i, end = " and ")
-            print(" street(s)", end = "- ")
+                    print(i, end = " and ", flush=True)
+            print(" street(s)", end = "- ", flush=True)
             time.sleep(delay*2)
             print("you may now purchase houses for this street(s).\n")
             time.sleep(delay*3)
             database[a][3] = new_owned_streets
         elif len(new_owned_streets) < len(database[a][3]):
-            print("Unfortunately " + a + " you no longer own (a) completed, unmortgaged ", end = "")
+            print("Unfortunately " + a + " you no longer own (a) completed, unmortgaged ", end = "", flush=True)
             for i in list(set(database[a][3]) - set(new_owned_streets)):
                 if i == list(set(database[a][3]) - set(new_owned_streets))[-1]:
-                    print(i, end = "")
+                    print(i, end = "", flush=True)
                 else:
-                    print(i, end = " and ")
-            print(" street(s)", end = "- ")
+                    print(i, end = " and ", flush=True)
+            print(" street(s)", end = "- ", flush=True)
             time.sleep(delay*2)
             print("you cannot buy houses for this street(s) any more.\n")
             time.sleep(delay*3)
@@ -1596,7 +1599,7 @@ def street(a):
         if database[a][2][12] != 1:
             database[a][2][12] = 1
             database[a][2][28] = 1
-            print("Congratulations " + a + "! You now have 2 utilities", end = "- " )
+            print("Congratulations " + a + "! You now have 2 utilities", end = "- " , flush=True)
             time.sleep(delay*2)
             print(" now when people land on your utilities, rent is 10x the dice roll.\n")
             time.sleep(delay*5)
@@ -1646,7 +1649,7 @@ def trading(p, a):
     if a == '':
         print("\nWelcome to trading. ")
         time.sleep(delay*2)
-        print("\nYou may only trade undeveloped property- ", end = "")
+        print("\nYou may only trade undeveloped property- ", end = "", flush=True)
         time.sleep(delay*2)
         print("you must sell off all buildings from a street before you can trade property from that street.")
         time.sleep(delay*2)
@@ -1669,10 +1672,10 @@ def trading(p, a):
                 if trade['money1'] != 0 or trade['prop1'] != [] or trade['money2'] != 0 or trade['prop2'] != []:
                     print("\n\n\nCurrently the trade is:")
                     time.sleep(delay)
-                    print(p + ": £" + str(trade['money1']) + " & ", end = "")
+                    print(p + ": £" + str(trade['money1']) + " & ", end = "", flush=True)
                     print( [locations[i] for i in trade['prop1']] )
                     time.sleep(delay)
-                    print(player2 + ": £" + str(trade['money2']) + " & ", end = "")
+                    print(player2 + ": £" + str(trade['money2']) + " & ", end = "", flush=True)
                     print( [locations[i] for i in trade['prop2']] )
                     time.sleep(delay)
                     
@@ -1726,9 +1729,9 @@ def trading(p, a):
                                             print("\n")
                                             for i in trade['prop1']:
                                                 if i == trade['prop1'][-1]:
-                                                    print(locations[i], end = " ")
+                                                    print(locations[i], end = " ", flush=True)
                                                 else:
-                                                    print(locations[i], end = ", ")
+                                                    print(locations[i], end = ", ", flush=True)
                                             print("has/ have been transferred from " + p + " to " + player2) 
                                             time.sleep(delay*2)
                                             no_sell = 0
@@ -1748,9 +1751,9 @@ def trading(p, a):
                                     print("\n")
                                     for i in trade['prop1']:
                                         if i == trade['prop1'][-1]:
-                                            print(locations[i], end = " ")
+                                            print(locations[i], end = " ", flush=True)
                                         else:
-                                            print(locations[i], end = ", ")
+                                            print(locations[i], end = ", ", flush=True)
                                     print("has/ have been transferred from " + p + " to " + player2) 
                                     time.sleep(delay*2)
                                     no_sell = 0
@@ -1792,9 +1795,9 @@ def trading(p, a):
                                             print("\n")
                                             for i in trade['prop2']:
                                                 if i == trade['prop1'][-1]:
-                                                    print(locations[i], end = " ")
+                                                    print(locations[i], end = " ", flush=True)
                                                 else:
-                                                    print(locations[i], end = ", ")
+                                                    print(locations[i], end = ", ", flush=True)
                                             print("has/ have been transferred from " + player2 + " to " + p)
                                             time.sleep(delay*2)
                                             no_sell = 0
@@ -1814,9 +1817,9 @@ def trading(p, a):
                                     print("\n")
                                     for i in trade['prop2']:
                                         if i == trade['prop2'][-1]:
-                                            print(locations[i], end = " ")
+                                            print(locations[i], end = " ", flush=True)
                                         else:
-                                            print(locations[i], end = ", ")
+                                            print(locations[i], end = ", ", flush=True)
                                     print("has/ have been transferred from " + player2 + " to " + p) 
                                     time.sleep(delay*2)
                                     no_sell = 0
@@ -1838,10 +1841,10 @@ def trading(p, a):
                             break
                         
                         elif ans == 'C':
-                            print("Cancelling", end = "")
+                            print("Cancelling", end = "", flush=True)
                             for i in range(3):
                                 time.sleep(delay*2)
-                                print('.', end = '')
+                                print('.', end = '', flush=True)
                             time.sleep(delay*2)
                             print("\n\n")
                             trading(p, 1) 
@@ -1948,10 +1951,10 @@ def trading(p, a):
             print("Invalid input.")
 
 
-trading('CHIN', '')
+#trading('CHIN', '')
 
 
-'''
+
 intro()
 
 shuffle()
@@ -1979,10 +1982,10 @@ while True:
                             break
                         elif ans == "X":
                             delay = 0.3
-                            print('Turning off TURBO', end = '')
+                            print('Turning off TURBO', end = '', flush=True)
                             for i in range(3):
                                 time.sleep(0.5)
-                                print('.', end = '')
+                                print('.', end = '', flush=True)
                             time.sleep(0.5)
                             print("\n\n\n\n")
                             break
@@ -2025,10 +2028,4 @@ while True:
         time.sleep(0.5)
         print("Thanks for playing!")
         break
-    
-'''
-'''
-Switch case statements
-Going to jail- rolling double
-Buying houses- when buying 2 houses each, talks about utility are forgets 1 house
-'''
+# %%
