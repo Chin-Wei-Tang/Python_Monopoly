@@ -4,7 +4,7 @@ class Round:
     def __init__(self, game, player):
         self.game = game
         self.player = player
-        self.time_left = 10
+        self.time_left = 30
         self.round_ended = False
         self.stop_thread = False
         if self.game.get_delay() == 0.15:
